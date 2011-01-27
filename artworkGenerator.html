@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Needed scripts for the Processing framework --!>
+  <script type="text/javascript" src="processing.js"></script>
+  <!-- Rest of headers --!>
+  <script type="text/javascript" src="jquery-1.4.4.js"></script>
+  <script type="text/javascript" src="init.js"></script>
+  <script type="text/javascript" src="data.js"></script>
+<link rel="stylesheet" href="style.css"/></head>
+<body>
+<canvas width="400" height="400">
+<script type="application/processing">
+/* @pjs preload="star.png" */
+/* @pjs preload="background.jpg" */
+// Based on some code from Processing.js examples
+
+int segments = 40;
+int red, green, blue;
+float width, heigth;
+float timer;
+Ground[] ground = new Ground[segments];
+float[] peakHeights = new float[segments+1];
+PFont fontA;
+PImage s, background_img;
+
+void setup(){
+  width = heigth = window.canvasSize;
+  size(width, heigth);
+  smooth();
+
+  // calculate ground peak heights 
+  for (int i=0; i<peakHeights.length; i++){
+    peakHeights[i] = random(height-80, height-60);
+  }
+
+  /* float value required for segment width (segs)
+   calculations so the ground spans the entire 
+   display window, regardless of segment number. */
+  float segs = segments;
+  for (int i=0; i<segments; i++){
+    ground[i]  = new Ground(width/segs*i, peakHeights[i],
+    width/segs*(i+1), peakHeights[i+1]);
+  }
+  
+  PFont fontA = loadFont("Arial");
+  textFont(fontA, 32);
+  
+  s = loadImage("star.png");
+  background_img = loadImage("background.jpg");
+  
+  red = random(30, 255);
+  green = random(80, 255);
+  blue = random(80, 255);
+  
+}
+
+void draw(){
+  // background
+  noStroke();
+  fill(0, 15);
+  rect(0, 0, width, height);
+  
+  timer+=0.01;
+  if(timer > 1)
+  {
+	  tint(red-((-1)*window.dataForProcessing.track.loudness), green-((-1)*window.dataForProcessing.track.loudness), blue-((-1)*window.dataForProcessing.track.loudness));
+	  //draw background image
+	  image(background_img, 0, 0);
+	  
+	  // draw ground
+	  fill(127, 0, 0, 120);
+	  beginShape();
+	  for (int i=0; i<segments; i++){
+	    vertex(ground[i].x1, ground[i].y1);
+	    vertex(ground[i].x2, ground[i].y2);
+	  }
+	  vertex(ground[segments-1].x2, height);
+	  vertex(ground[0].x1, height);
+	  endShape(CLOSE);
+
+	  //hack: TODO, better implementation, etc...
+	  sections_size = (window.dataForProcessing.sections).length;
+	  track_duration = window.dataForProcessing.track.duration;
+	  
+	  for (int k = 0; k < sections_size; k++)
+	  {
+	  	ellipse((width/sections_size)*k, (heigth-heigth/4)*window.dataForProcessing.sections[k].confidence, (window.dataForProcessing.sections[k].duration/track_duration)*200+20, (window.dataForProcessing.sections[k].duration/track_duration)*200+20);	
+	  }
+	  
+	  drawData();
+	  
+	  tint(255, 255, 255, 255);  
+	  //draws stars depending on danceability index
+	  for (int j = 1; j < (window.profileData.response.track.audio_summary.danceability*10); j++)
+	  {
+		image(s, 40+(j*10), heigth-40);
+	  }
+  }
+}
+
+void drawData()
+{
+  fill(red, green, blue);
+  text(window.titletext, 30, 70);  
+  fill(255, 255, 255);
+  
+  text(window.artist, 30, 50);
+  //window.dataForProcessing.track.tempo = 180;
+  text(int(window.dataForProcessing.track.tempo), 30, peakHeights[0]);
+}
+
+void mouseClicked()
+{
+	save("output.png");	
+}
+
+class Ground {
+  float x1, y1, x2, y2;  
+  float x, y, len, rot;
+
+  // default constructor
+  Ground(){
+  }
+
+  // constructor
+  Ground(float x1, float y1, float x2, float y2) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+    x = (x1+x2)/2;
+    y = (y1+y2)/2;
+    len = dist(x1, y1, x2, y2);
+    rot = atan2((y2-y1), (x2-x1));
+  }
+}
+</script>
+</canvas>
+<p>Made with <a href="http://processingjs.org/" target="_blank">Processing.js</a> @ <a href="http://cannes.musichackday.org" target="_blank">MIDEM MHD Cannes 2011</a></p>
+<div style="height:0px;width:0px;overflow:hidden;"></div>
+</body>
+</html>
