@@ -7,6 +7,7 @@ Using processing.js to generate artwork from audio descriptors
 Author: Jorge Garcia [info@jorgegarciamartin.com]
 
 Coded at MIDEM Music Hack Day, Cannes (France) 23-24 January 2011
+[http://cannes.musichackday.org]
 
 Acknowldegements: Thomas Bonte & Michael Schieben for the help with
 the code and developing the idea.
@@ -14,5 +15,7 @@ the code and developing the idea.
 --------------------------------------------------------------------
 
 Please visit libraries websites for further info:
+
+EchoNest analysis tools [http://developer.echonest.com]
 jquery-1.4.4.js [http://docs.jquery.com/Downloading_jQuery]
 processing.js [http://processingjs.org/download]
