@@ -1,12 +1,12 @@
-var profile = "http://www.jorgegarciamartin.com/testMHD/data/03profile.json";
-var url = "http://www.jorgegarciamartin.com/testMHD/data/03full.json";
+var profile = "/data/profile_echonest.json";
+var full = "/data/analysis_full_echonest.json";
 
 window.dataForProcessing = null;
 window.profileData = null;
 window.canvasSize = 400;
-window.artist = "Stavro Blofeld";
-window.titletext = "Upper Floor Vocal";
+window.artist = "Artist title";
+window.titletext = "Track awesome name!";
 $().jquery;
 
-$.getJSON(url, function (res) { dataForProcessing = res; });
+$.getJSON(full, function (res) { dataForProcessing = res; });
 $.getJSON(profile, function(res) { profileData = res; });
