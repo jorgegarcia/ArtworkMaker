@@ -1,0 +1,18 @@
+--------------------------------------------------------------------
+ARTWORK GENERATOR v0.1
+--------------------------------------------------------------------
+
+Using processing.js to generate artwork from audio descriptors
+
+Author: Jorge Garcia [info@jorgegarciamartin.com]
+
+Coded at MIDEM Music Hack Day, Cannes (France) 23-24 January 2011
+
+Acknowldegements: Thomas Bonte & Michael Schieben for the help with
+the code and developing the idea.
+
+--------------------------------------------------------------------
+
+Please visit libraries websites for further info:
+jquery-1.4.4.js [http://docs.jquery.com/Downloading_jQuery]
+processing.js [http://processingjs.org/download]
